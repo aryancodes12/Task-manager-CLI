@@ -10,26 +10,16 @@ else:
     print("Previous data is loaded")
 
 user_info = {}
+counter = 1
 while True:
+    user_id = f"u{counter:03d}"
+
     def user_register():
         print("\n\033[35mRegister Here\033[0m\n")
         first_name = input("Enter your First name: ").title()
-        user_info["first_name"] = first_name
         last_name = input("Enter your Last name: ").title()
-        user_info["last_name"] = last_name
-        while True:
-            email = input("Enter your Email-Id: ")
-            if "@" and "." in email:
-                user_info["email"] = email
-                break
-            else:
-                print("Invalid email id")
+        email = input("Enter your Email-Id: ")
         username = input("Create your username: ")
-        if username not in user_info:
-            user_info["username"] = username
-        elif username in user_info:
-            print("\033[1;91mUsername is already taken.\033[0m")
-            username = input("Create your username: ")
         is_password = True
         password = input("Create password: ")
         while is_password:
@@ -39,21 +29,23 @@ while True:
             elif len(password) < 8:
                 print("Password should be greater than 8 character")
                 password = input("Enter password: ")
-            elif password != username:
+            else:
                 re_enter = input("Enter password again: ")
-                if re_enter != password:
-                    print("\033[1;92mPassword doesn't match.\033[0m")
-                    re_enter = input("Enter password again: ")
-                else:
-                    user_info["Password"] = re_enter
-                    break
+                is_password = False 
+        user_info[user_id] = {
+            "First_Name": first_name,
+            "Last_Name": last_name,
+            "Email_Id": email,
+            "Username": username,
+            "Password": re_enter,
+            }
         print("Registeration Successful")
 
-        print(user_info)
 
     register = input("Enter 'y/n' for registeration: ").lower()
     if register == "y":
         user_register()
+        counter += 1
     elif register == "n":
         break
 
@@ -65,6 +57,9 @@ except FileNotFoundError:
 else:
     print("DATA IS SAVED")
 
-print("User DATA:")
-for k, v in user_info.items():
-    print(k, ":", v)
+print("\nUser DATA:\n")
+for uid, infos in user_info.items():
+    print(f"\033[1;92mUser ID->\033[0m {uid}")
+    for k, v in infos.items():
+        print(f"\t{k} ->\033[1;93m{v}\033[0m")
+        print()
