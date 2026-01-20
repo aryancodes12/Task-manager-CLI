@@ -19,6 +19,9 @@ It allows you to **add, remove, show, sort, reverse, and clear tasks** right fro
 - Reverse task order
 - Clear all tasks (with confirmation)
 - Simple and colorful terminal UI 🎨
+- 💾 Save tasks using JSON file handling
+
+- 📂 Load tasks from previous sessions
 
 ---
 
@@ -32,10 +35,6 @@ It allows you to **add, remove, show, sort, reverse, and clear tasks** right fro
 ---
 
 ## 📌 Future Improvements
-
-💾 Save tasks using JSON file handling
-
-📂 Load tasks from previous sessions
 
 🎨 Add a GUI version (Tkinter / PyQt)
 
