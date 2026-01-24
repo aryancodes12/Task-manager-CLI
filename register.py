@@ -20,42 +20,72 @@ if user_info:
 else:
     counter = 1
 
+user_id = f"u{counter:03d}"
 
+def names():
+    first_name = input("Enter your First name: ")
+    last_name = input("Enter your Last name: ")
+    full_name = f"{first_name} {last_name}"
+    return full_name
+
+def username():
+    username = input("Create username:")
+    if username in user_id:
+        console.print(f"Username is already taken.", style= "bold red")
+    else:
+        return username
+
+
+#Adding the DATA in Dict user_info
+def email_ids():
+    flag = True
+    while flag:
+        email_id = input("Enter email id:")
+        if "@" and "." in email_id:
+            return email_id
+        else:
+            console.print(f"\nInvalid Email.\n", style= "bold red")
 
 #Registeration main fuction
-def user_registeration():
-    console.print("Registeration Section", style="bold cyan")
-    first_name = input("Enter First Name:").title()
-    last_name = input("Enter Last Name:").title()
-    email_id = input("Enter email id:")
-    username = input("Create username:")
-    password = input("Create a password:")
-    re_enter = input("Re-Enter the password:")
-
-    #Adding the DATA in Dict user_info
-
-    user_id = f"u{counter:03d}"
-    user_info[user_id] = {
-        "First_Name": first_name,
-        "Last_Name": last_name,
-        "Email_id": email,
-        "Username": username,
-        "Password": re_enter,
-        }
+# def user_registeration():
+#     console.print("Registeration Section", style="bold cyan")
+#     first_name = input("Enter First Name:").title()
+#     last_name = input("Enter Last Name:").title()
     
+    
+#     password = input("Create a password:")
+#     re_enter = input("Re-Enter the password:")
+
+    
+    
+
+
+
+
+
+
+
 
 #Asking for permission to begin registeration
 active = True
 while active:
     register = input("Enter 'y/n' for registeration: ").lower()
     if register == "y":
-        user_registeration()
+        names()
+        print(full_name)
+        email_ids()
+        username()
     elif register == "n":
         active = False
 
 
 
-
+user_info[user_id] = {
+    "Full_Name" : full_name,
+    "Email" : email,
+    "Username" : username,
+    "Password" : re_enter,
+}
 
 
 try:
@@ -68,4 +98,6 @@ else:
 
 print("User DATA:")
 for k, v in user_info.items():
-    print(k, ":", v)
+    print(k)
+    for k1, v1 in v.items():
+        print(k1, ":", v1)
