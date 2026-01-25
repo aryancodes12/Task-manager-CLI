@@ -7,97 +7,94 @@ console = Console()
 file_name = "user_data.json"
 try:
     with open(file_name) as f:
-        user_info = json.load(f)
+        users = json.load(f)
 except FileNotFoundError:
     console.print("File does not exist", style="bold red")
 else:
     print("Previous data is loaded")
 
 #Tracking the current user id from the JSON file
-user_info = {}
-if user_info:
-    counter = max(int(uid[1:]) for uid in user_info.keys()) + 1
+users = {}
+if users:
+    counter = max(int(uid[1:]) for uid in users.keys()) + 1
 else:
     counter = 1
 
-user_id = f"u{counter:03d}"
+#Validations
 
-def names():
-    first_name = input("Enter your First name: ")
-    last_name = input("Enter your Last name: ")
+def is_valid_email(email):
+    return "@" in email and "." in email
+
+def is_unique_username(username):
+    return username not in [u["Username"] for u in users.values()]
+
+#Main Function
+def register_user():
+    global counter
+#Name
+    first_name = input("Enter your first name: ").title()
+    last_name = input("Enter your last name: ").title()
     full_name = f"{first_name} {last_name}"
-    return full_name
+#Email
+    while True:
+        email = input("Enter Email Id: ")
+        if is_valid_email(email):
+            break
+        console.print("Invalid Email format", style = "Red")
 
-def username():
-    username = input("Create username:")
-    if username in user_id:
-        console.print(f"Username is already taken.", style= "bold red")
-    else:
-        return username
+#Username
+    while True:
+        username = input("Create username: ")
+        if is_unique_username(username):
+            break
+        console.print("Username already taken", style = "Red")
 
-
-#Adding the DATA in Dict user_info
-def email_ids():
-    flag = True
-    while flag:
-        email_id = input("Enter email id:")
-        if "@" and "." in email_id:
-            return email_id
+#Password
+    while True:
+        password = input("Create a password: ")
+        if password == username:
+            console.print("Password cannot match the username", style = "Red")
+        elif len(password) < 8:
+            console.print("Password must be atleast 8 characters", style = "Red")
         else:
-            console.print(f"\nInvalid Email.\n", style= "bold red")
+            confirm = input("Confirm the password: ")
+            if confirm == password:
+                break
+            console.print("Password do not match", style = "Red")
 
-#Registeration main fuction
-# def user_registeration():
-#     console.print("Registeration Section", style="bold cyan")
-#     first_name = input("Enter First Name:").title()
-#     last_name = input("Enter Last Name:").title()
-    
-    
-#     password = input("Create a password:")
-#     re_enter = input("Re-Enter the password:")
+#ADDING DATA IN DICTONARY
+    user_id = f"u{counter:03d}"
+    users[user_id] = {
+        "Name" : full_name,
+        "Email" : email,
+        "Username" : username,
+        "Password" : password
+        }
 
-    
-    
-
-
-
-
+    counter += 1
+    console.print("\nRegisteration Successful\n", style = "Green")
 
 
+#MAIN LOOP
+while True:
+    choice = input("Register new user? (y/n): ").lower()
+    if choice == "y":
+        register_user()
+    elif choice == "n":
+        break
+    else:
+        console.print("Invalid choice", style = "Yellow")
 
 
-#Asking for permission to begin registeration
-active = True
-while active:
-    register = input("Enter 'y/n' for registeration: ").lower()
-    if register == "y":
-        names()
-        print(full_name)
-        email_ids()
-        username()
-    elif register == "n":
-        active = False
+#DATA SAVING
+with open(file_name, "w") as f:
+    json.dump(users, f, indent = 4)
 
+console.print("\nData saved successfully", style = "Bold Green")
 
-
-user_info[user_id] = {
-    "Full_Name" : full_name,
-    "Email" : email,
-    "Username" : username,
-    "Password" : re_enter,
-}
-
-
-try:
-    with open(file_name, "w") as f:
-        json.dump(user_info, f)
-except FileNotFoundError:
-    pass
-else:
-    print("DATA IS SAVED")
-
-print("User DATA:")
-for k, v in user_info.items():
-    print(k)
-    for k1, v1 in v.items():
-        print(k1, ":", v1)
+#DATA DISPLAY
+for user, info in users.items():
+    console.print(user, style = "Purple")
+    for k, v in info.items():
+        console.print(f"{k} : {v}")
+    print()
