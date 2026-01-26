@@ -58,7 +58,7 @@ print("\n\033[1;92m------Add Task------\033[0m\n")
 def main():
     while True:
         user = input("Enter Tasks or \033[1;91m'stop'\033[0m to exit: ").strip()
-    
+
         if not user:
             print("\033[1;93mEmpty task not allowed!\033[0m")
             continue
@@ -93,7 +93,7 @@ while True:
         main()
     elif functions.lower() == "q":
         print("\n\033[91mFunction Closed.\033[0m\n")
-        break    
+        break
     else:
         print("\033[91mInvalid choice, please try again.\033[0m")
 
