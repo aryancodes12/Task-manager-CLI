@@ -27,6 +27,7 @@ It is designed as a beginner-friendly backend project to practice:
 
 ## Program flow
 
+```bash
 
 Start
  ↓
@@ -43,7 +44,7 @@ Save to dictionary
 Write to JSON file
  ↓
 Display all users
-End
+```
 
 ---
 
